@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Login — Global Inequality</title>
+<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div id="loader">
+  <div class="loader-box">
+    <div class="loader-emoji">🌍</div>
+    <div class="loader-bar"><div class="loader-fill"></div></div>
+    <p>Loading...</p>
+  </div>
+</div>
+
+<div id="particles-js"></div>
+
+<nav class="navbar" id="navbar">
+  <h2>🌍 Global Inequality</h2>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="index.html#kpi">Statistics</a>
+    <a href="index.html#dashboard">Dashboard</a>
+    <a href="login.html" class="nav-btn">Login</a>
+    <a href="register.html" class="nav-btn nav-btn-fill">Register</a>
+  </div>
+</nav>
+
+<div class="login-container">
+  <div class="auth-logo">🌍</div>
+  <h2>Welcome Back</h2>
+  <p>Login to access your dashboard</p>
+  <input id="loginEmail" type="email" placeholder="Email Address"/>
+  <input id="loginPassword" type="password" placeholder="Password"/>
+  <button onclick="login()">Login →</button>
+  <br><br>
+  <p>Don't have an account? <a href="register.html">Register here</a></p>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Global Inequality Dashboard</title>
+<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- LOADING SCREEN -->
+<div id="loader">
+  <div class="loader-box">
+    <div class="loader-emoji">🌍</div>
+    <div class="loader-bar"><div class="loader-fill"></div></div>
+    <p>Loading Dashboard...</p>
+  </div>
+</div>
+
+<!-- PARTICLES -->
+<div id="particles-js"></div>
+
+<!-- NEWS TICKER -->
+<div class="news-ticker">
+  <span class="ticker-label">📰 LIVE NEWS</span>
+  <div class="ticker-wrap">
+    <div class="ticker-content" id="tickerContent">
+      <span>🌍 Global Gini Index stands at 40.60 — moderate-to-high inequality worldwide</span>
+      <span>📊 South Africa remains world's most unequal country with Gini score of 63</span>
+      <span>🔮 Power BI forecast predicts global inequality will fall to 35-38 by 2040</span>
+      <span>💼 Global unemployment rate at 8.60% — directly linked to rising inequality</span>
+      <span>🔍 28 million homicides recorded globally from 1990-2023 — Brazil leads</span>
+      <span>🎯 Latin America furthest from achieving SDG Goals 11 and 16</span>
+      <span>📈 Norway has world's lowest Gini of 26 — supported by oil wealth distribution</span>
+      <span>⚠️ Colombia and Paraguay identified as highest-risk nations for future inequality</span>
+      <span>🌐 Europe has lowest regional inequality — Nordic countries lead with Gini below 30</span>
+      <span>💡 Higher GDP consistently leads to lower inequality across all 201 countries</span>
+    </div>
+  </div>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <h2>🌍 Global Inequality</h2>
+  <div class="nav-links">
+    <a href="#home">Home</a>
+    <a href="#kpi">Statistics</a>
+    <a href="#dashboard">Dashboard</a>
+    <a href="#compare">Compare</a>
+    <a href="#questions">Ask Question</a>
+    <a href="login.html" class="nav-btn">Login</a>
+    <a href="register.html" class="nav-btn nav-btn-fill">Register</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-badge">📊 Power BI Analytics Platform</div>
+  <h1>🌍 Global Inequality<br><span class="highlight">Dashboard</span></h1>
+  <p>Explore 33 years of inequality data across 201 countries</p>
+  <div class="hero-btns">
+    <a href="#dashboard"><button class="explore">Explore Dashboard →</button></a>
+    <a href="#kpi"><button class="explore outline">View Stats</button></a>
+  </div>
+</section>
+
+<!-- KPI CARDS -->
+<section class="kpi" id="kpi">
+  <div class="kpi-title">
+    <h2>Key Statistics</h2>
+    <p>Real data from 201 countries</p>
+  </div>
+
+  <!-- FILTERS -->
+  <div class="filter-bar">
+    <div class="filter-group">
+      <label>🌍 Region</label>
+      <select id="filterRegion" onchange="applyFilters()">
+        <option value="all">All Regions</option>
+        <option value="africa">Africa</option>
+        <option value="asia">Asia</option>
+        <option value="europe">Europe</option>
+        <option value="americas">Americas</option>
+        <option value="oceania">Oceania</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label>💰 Income Group</label>
+      <select id="filterIncome" onchange="applyFilters()">
+        <option value="all">All Income Groups</option>
+        <option value="high">High Income</option>
+        <option value="upper">Upper Middle Income</option>
+        <option value="lower">Lower Middle Income</option>
+        <option value="low">Low Income</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label>📅 Year Range</label>
+      <select id="filterYear" onchange="applyFilters()">
+        <option value="all">All Years (1990–2023)</option>
+        <option value="1990">1990s</option>
+        <option value="2000">2000s</option>
+        <option value="2010">2010s</option>
+        <option value="2020">2020s</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label>📊 Inequality Level</label>
+      <select id="filterGini" onchange="applyFilters()">
+        <option value="all">All Levels</option>
+        <option value="high">High (Gini > 50)</option>
+        <option value="medium">Medium (Gini 30–50)</option>
+        <option value="low">Low (Gini < 30)</option>
+      </select>
+    </div>
+    <button class="reset-btn" onclick="resetFilters()">🔄 Reset</button>
+  </div>
+
+  <!-- FILTER RESULT -->
+  <div class="filter-result" id="filterResult">
+    Showing data for: <strong id="filterLabel">All Countries — All Years</strong>
+  </div>
+
+  <div class="kpi-grid">
+    <div class="card" onclick="openPanel('p1')">
+      <div class="card-icon">🌐</div>
+      <h2 class="counter" id="stat-countries" data-target="201">0</h2>
+      <p>Countries Analysed</p>
+    </div>
+    <div class="card" onclick="openPanel('p2')">
+      <div class="card-icon">📊</div>
+      <h2 class="counter" id="stat-gini" data-target="40">0</h2>
+      <p>Avg Gini Index</p>
+    </div>
+    <div class="card" onclick="openPanel('p3')">
+      <div class="card-icon">🔍</div>
+      <h2 class="counter" id="stat-homicides" data-target="28">0</h2>
+      <p>Million Homicides</p>
+    </div>
+    <div class="card" onclick="openPanel('p4')">
+      <div class="card-icon">💼</div>
+      <h2 class="counter" id="stat-unemployment" data-target="8">0</h2>
+      <p>Avg Unemployment %</p>
+    </div>
+    <div class="card" onclick="openPanel('p5')">
+      <div class="card-icon">💰</div>
+      <h2 class="counter" id="stat-palma" data-target="2">0</h2>
+      <p>Palma Ratio</p>
+    </div>
+    <div class="card" onclick="openPanel('p6')">
+      <div class="card-icon">📅</div>
+      <h2 class="counter" id="stat-years" data-target="33">0</h2>
+      <p>Years of Data</p>
+    </div>
+  </div>
+</section>
+
+<!-- KEY INSIGHTS -->
+<section class="insights-section" id="insights">
+  <div class="insights-title">
+    <h2>💡 Key Insights</h2>
+    <p id="insightSubtitle">Data-driven findings from 201 countries</p>
+  </div>
+  <div class="insights-grid" id="insightsGrid">
+    <div class="insight-card green">
+      <div class="insight-icon">📈</div>
+      <h3>Higher GDP = Lower Inequality</h3>
+      <p>Countries with higher GDP per Capita consistently show lower Gini scores. Norway (Gini 26), Denmark (Gini 28), and Sweden (Gini 28) are the world's most equal nations — all with GDP above $50,000.</p>
+      <span class="insight-tag">Page 2 — Scatter Plot</span>
+    </div>
+    <div class="insight-card red">
+      <div class="insight-icon">🔍</div>
+      <h3>Inequality Drives Crime</h3>
+      <p>Brazil (Gini 53) and South Africa (Gini 63) both top the homicide rankings. A 1-point increase in Gini Index leads to a measurable increase in homicide rates globally.</p>
+      <span class="insight-tag">Page 3 — Homicide Analysis</span>
+    </div>
+    <div class="insight-card purple">
+      <div class="insight-icon">💼</div>
+      <h3>Unemployment Fuels Inequality</h3>
+      <p>South Africa has 32% unemployment AND the world's highest Gini of 63. Countries with higher unemployment consistently show higher inequality — proven in Page 4 scatter plot.</p>
+      <span class="insight-tag">Page 4 — Impact Analysis</span>
+    </div>
+    <div class="insight-card yellow">
+      <div class="insight-icon">🔮</div>
+      <h3>Global Inequality is Declining</h3>
+      <p>From 43 in the 1990s to 40.60 today — global inequality has been falling. Power BI forecast predicts it will reach 35–38 by 2040 if SDG goals are achieved.</p>
+      <span class="insight-tag">Page 5 — Forecast 2040</span>
+    </div>
+    <div class="insight-card green">
+      <div class="insight-icon">🌍</div>
+      <h3>Africa Most Unequal Region</h3>
+      <p>Sub-Saharan Africa consistently ranks as the most unequal region. South Africa (63), Namibia (59), Botswana (53) lead globally — a legacy of historical wealth concentration.</p>
+      <span class="insight-tag">Page 1 — Global Overview</span>
+    </div>
+    <div class="insight-card red">
+      <div class="insight-icon">🎯</div>
+      <h3>SDG Goals Lagging Behind</h3>
+      <p>Latin America and Sub-Saharan Africa are furthest from achieving SDG Goals 11 and 16 — directly linked to their high inequality levels and low economic participation rates.</p>
+      <span class="insight-tag">Page 4 — SDG Analysis</span>
+    </div>
+  </div>
+</section>
+
+<!-- DASHBOARD -->
+<section class="dashboard" id="dashboard">
+  <h1>📊 Interactive Dashboard</h1>
+  <p>Your Power BI dashboard — select a page below to read its description</p>
+
+  <div class="page-info-msg">
+    💡 Click any button below to read the page description — then click the same tab inside the dashboard to switch pages!
+  </div>
+
+  <div class="page-btns">
+    <button class="page-btn active" onclick="setPage(1,this)">🌐 Global Overview</button>
+    <button class="page-btn" onclick="setPage(2,this)">🗺️ Regional Dive</button>
+    <button class="page-btn" onclick="setPage(3,this)">🔍 Homicide</button>
+    <button class="page-btn" onclick="setPage(4,this)">📈 Impact</button>
+    <button class="page-btn" onclick="setPage(5,this)">🔮 Forecast</button>
+  </div>
+
+  <div class="analysis-buttons">
+    <button onclick="openPanel('income')">💰 Income Gap</button>
+    <button onclick="openPanel('education')">📚 Education</button>
+    <button onclick="openPanel('economic')">📈 Economic</button>
+    <button onclick="openPanel('homicide')">🔍 Homicide</button>
+    <button onclick="openPanel('forecast')">🔮 Forecast</button>
+  </div>
+
+  <div class="dash-toolbar">
+    <span id="pageLabel">Page 1 — Global Overview</span>
+    <button class="fs-btn" onclick="fullscreen()">⛶ Fullscreen</button>
+  </div>
+
+  <div class="frame">
+    <iframe id="powerbi"
+      src="https://app.powerbi.com/reportEmbed?reportId=0a75193e-fd7f-4099-8c36-cbd6a5cabfbe&autoAuth=true&ctid=621dc48e-42a9-48bb-a814-9767d56c283f"
+      width="100%"
+      height="650"
+      frameborder="0"
+      allowFullScreen="true">
+    </iframe>
+  </div>
+
+  <div class="page-desc">
+    <p id="pageDescText">🌐 <strong>Page 1 — Global Overview:</strong> 5 KPI cards showing Avg Gini (40.60), Palma Ratio (2.37), GDP ($26.09K), Inequality Gap (32.56), Countries (201). Bar chart shows top unequal countries. Line chart shows Gini trend 1990–2020.</p>
+  </div>
+
+  <div class="nav-guide glass-guide">
+    <h3>📌 How to Navigate the Dashboard</h3>
+    <div class="guide-steps">
+      <div class="guide-step">
+        <span class="step-num">1</span>
+        <p>Click any <strong>page button above</strong> to read its description</p>
+      </div>
+      <div class="guide-step">
+        <span class="step-num">2</span>
+        <p>Inside the dashboard, click the <strong>tabs at the bottom</strong> to switch pages</p>
+      </div>
+      <div class="guide-step">
+        <span class="step-num">3</span>
+        <p>Use <strong>Fullscreen</strong> button for better viewing experience</p>
+      </div>
+      <div class="guide-step">
+        <span class="step-num">4</span>
+        <p>Click <strong>analysis buttons</strong> above for detailed chart explanations</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COUNTRY COMPARISON -->
+<section class="compare-section" id="compare">
+  <div class="compare-title">
+    <h2>🔔 Country Comparison Tool</h2>
+    <p>Compare inequality data between any 2 countries</p>
+  </div>
+  <div class="glass-compare">
+    <div class="compare-selectors">
+      <div class="compare-select-group">
+        <label>🌍 Country 1</label>
+        <select id="country1" onchange="compareCountries()">
+          <option value="">-- Select Country --</option>
+          <option value="india">India</option>
+          <option value="china">China</option>
+          <option value="usa">USA</option>
+          <option value="brazil">Brazil</option>
+          <option value="southafrica">South Africa</option>
+          <option value="germany">Germany</option>
+          <option value="uk">United Kingdom</option>
+          <option value="france">France</option>
+          <option value="japan">Japan</option>
+          <option value="russia">Russia</option>
+          <option value="mexico">Mexico</option>
+          <option value="colombia">Colombia</option>
+          <option value="norway">Norway</option>
+          <option value="sweden">Sweden</option>
+          <option value="denmark">Denmark</option>
+          <option value="pakistan">Pakistan</option>
+          <option value="bangladesh">Bangladesh</option>
+          <option value="nigeria">Nigeria</option>
+          <option value="kenya">Kenya</option>
+          <option value="australia">Australia</option>
+          <option value="canada">Canada</option>
+          <option value="italy">Italy</option>
+          <option value="spain">Spain</option>
+          <option value="turkey">Turkey</option>
+          <option value="indonesia">Indonesia</option>
+        </select>
+      </div>
+      <div class="compare-vs">VS</div>
+      <div class="compare-select-group">
+        <label>🌍 Country 2</label>
+        <select id="country2" onchange="compareCountries()">
+          <option value="">-- Select Country --</option>
+          <option value="india">India</option>
+          <option value="china">China</option>
+          <option value="usa">USA</option>
+          <option value="brazil">Brazil</option>
+          <option value="southafrica">South Africa</option>
+          <option value="germany">Germany</option>
+          <option value="uk">United Kingdom</option>
+          <option value="france">France</option>
+          <option value="japan">Japan</option>
+          <option value="russia">Russia</option>
+          <option value="mexico">Mexico</option>
+          <option value="colombia">Colombia</option>
+          <option value="norway">Norway</option>
+          <option value="sweden">Sweden</option>
+          <option value="denmark">Denmark</option>
+          <option value="pakistan">Pakistan</option>
+          <option value="bangladesh">Bangladesh</option>
+          <option value="nigeria">Nigeria</option>
+          <option value="kenya">Kenya</option>
+          <option value="australia">Australia</option>
+          <option value="canada">Canada</option>
+          <option value="italy">Italy</option>
+          <option value="spain">Spain</option>
+          <option value="turkey">Turkey</option>
+          <option value="indonesia">Indonesia</option>
+        </select>
+      </div>
+    </div>
+    <div class="compare-result" id="compareResult" style="display:none">
+      <div class="compare-cards">
+        <div class="ccard" id="ccard1"></div>
+        <div class="ccard-mid">
+          <div class="winner-badge" id="winnerBadge"></div>
+        </div>
+        <div class="ccard" id="ccard2"></div>
+      </div>
+      <div class="compare-bars" id="compareBars"></div>
+      <div class="compare-verdict" id="compareVerdict"></div>
+    </div>
+  </div>
+</section>
+
+<!-- HEATMAP -->
+<section class="heatmap-section" id="heatmap">
+  <div class="heatmap-title">
+    <h2>🌡️ Global Inequality Heatmap</h2>
+    <p>Color intensity shows inequality level — darker = more unequal</p>
+  </div>
+  <div class="heatmap-legend">
+    <span class="leg-item"><span class="leg-color" style="background:#00ff88"></span> Very Low (Gini &lt; 28)</span>
+    <span class="leg-item"><span class="leg-color" style="background:#00f2ff"></span> Low (28–35)</span>
+    <span class="leg-item"><span class="leg-color" style="background:#f59e0b"></span> Medium (35–45)</span>
+    <span class="leg-item"><span class="leg-color" style="background:#ff6464"></span> High (45–55)</span>
+    <span class="leg-item"><span class="leg-color" style="background:#cc0000"></span> Very High (55+)</span>
+  </div>
+  <div class="heatmap-grid" id="heatmapGrid"></div>
+</section>
+
+<!-- QUESTIONS + DOWNLOAD -->
+<section class="questions" id="questions">
+  <h2>❓ Have Questions?</h2>
+  <p>Use our AI Assistant below or submit your question!</p>
+  <div class="action-btns">
+    <a href="https://forms.google.com" target="_blank">
+      <button class="explore">Submit Question →</button>
+    </a>
+    <button class="explore outline" onclick="downloadReport()">📤 Download Report</button>
+    <button class="explore outline" onclick="downloadCSV()">📊 Download CSV</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>🌍 Global Inequality Dashboard</p>
+  <p>Made by <strong>Pragya Mishra Prashasti</strong> | B.Tech CSE 2026 | DCE</p>
+</footer>
+
+<!-- SIDE PANEL -->
+<div id="panelOverlay" class="panel-overlay" onclick="closePanel()"></div>
+<div id="infoPanel" class="info-panel">
+  <h2>📊 Chart Info</h2>
+  <p id="chartInfo">Click a button to see explanation.</p>
+  <button onclick="closePanel()">✕ Close</button>
+</div>
+
+<!-- CHATBOT -->
+<button class="chat-fab" onclick="toggleChat()">💬</button>
+<div class="chatbox" id="chatbox">
+  <div class="chat-head">
+    <span>🤖 Adhira — IQ Assistant</span>
+    <button onclick="toggleChat()">✕</button>
+  </div>
+  <div class="chat-body" id="chatBody">
+    <div class="cbub bot">Hi! I am Adhira 👋 Ask me anything about global inequality or any country!</div>
+  </div>
+  <div class="chat-foot">
+    <input id="chatIn" type="text" placeholder="Ask about inequality..." onkeypress="chatKey(event)"/>
+    <button onclick="chatSend()">➤</button>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
